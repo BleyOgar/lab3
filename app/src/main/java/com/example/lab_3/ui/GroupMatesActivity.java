@@ -96,7 +96,8 @@ public class GroupMatesActivity extends AppCompatActivity {
             public void setData(GroupMate groupMate) {
                 TextView tvFio = (TextView) mItemView.findViewById(R.id.tv_fio);
                 TextView tvTimeInsert = (TextView) mItemView.findViewById(R.id.tv_timeInsert);
-                String fioString = String.format("%sФИО: %s", (groupMate._id == null || groupMate._id < 0) ? "" : groupMate._id + " | ", groupMate.fio);
+                String fio = String.format("%s %s %s", groupMate.lastName, groupMate.firstName, groupMate.middleName);
+                String fioString = String.format("%sФИО: %s", (groupMate._id == null || groupMate._id < 0) ? "" : groupMate._id + " | ", fio);
                 tvFio.setText(fioString);
                 Date date = new Date(groupMate.timeInsert);
                 String timeInsert = groupMate.timeInsert == null ? "" : "Дата добавления: " + dateFormat.format(date);

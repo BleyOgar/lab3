@@ -18,7 +18,9 @@ import java.util.List;
 public class SQLiteGroupMatesImpl implements GroupMatesRepository {
     private final String TABLE_NAME = "groupmates";
     private final String ID = "_id";
-    private final String FIO = "fio";
+    private final String FIRST_NAME = "first_name";
+    private final String LAST_NAME = "last_name";
+    private final String MIDDLE_NAME = "middle_name";
     private final String TIME_INSERT = "time_insert";
     private GroupMatesHelper mHelper;
 
@@ -29,10 +31,12 @@ public class SQLiteGroupMatesImpl implements GroupMatesRepository {
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-            db.execSQL(String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT NOT NULL, %s INTEGER NOT NULL)",
+            db.execSQL(String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT NOT NULL, %s TEXT NOT NULL, %s TEXT, %s INTEGER NOT NULL)",
                     TABLE_NAME,
                     ID,
-                    FIO,
+                    FIRST_NAME,
+                    LAST_NAME,
+                    MIDDLE_NAME,
                     TIME_INSERT));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,9 +57,7 @@ public class SQLiteGroupMatesImpl implements GroupMatesRepository {
 
     @Override
     public void insertGroupMate(GroupMate groupMate) {
-        ContentValues values = new ContentValues();
-        values.put(FIO, groupMate.fio);
-        values.put(TIME_INSERT, Calendar.getInstance().getTime().getTime());
+        ContentValues values = getContentValues(groupMate);
         try {
             mHelper.getWritableDatabase().insertWithOnConflict(TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         } catch (SQLException e) {
@@ -79,17 +81,21 @@ public class SQLiteGroupMatesImpl implements GroupMatesRepository {
     public List<GroupMate> getGroupMates() {
         List<GroupMate> data = new ArrayList<>();
         try {
-            Cursor cursor = mHelper.getWritableDatabase().query(TABLE_NAME, new String[]{ID, FIO, TIME_INSERT}, null, null, null, null, TIME_INSERT);
+            Cursor cursor = mHelper.getWritableDatabase().query(TABLE_NAME, new String[]{ID, FIRST_NAME, LAST_NAME, MIDDLE_NAME, TIME_INSERT}, null, null, null, null, TIME_INSERT);
             if (cursor == null) return null;
             if (!cursor.moveToFirst()) return null;
-            String fio = "";
+            String[] fio;
             Integer id = -1;
             long time_insert = -1;
             do {
                 id = cursor.getInt(0);
-                fio = cursor.getString(1);
-                time_insert = cursor.getLong(2);
-                GroupMate mate = new GroupMate(fio, time_insert);
+                fio = new String[]{
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                };
+                time_insert = cursor.getLong(4);
+                GroupMate mate = new GroupMate(fio[0], fio[1], fio[2], time_insert);
                 mate.setId(id);
                 data.add(mate);
             } while (cursor.moveToNext());
@@ -108,7 +114,9 @@ public class SQLiteGroupMatesImpl implements GroupMatesRepository {
      */
     private ContentValues getContentValues(GroupMate groupMate) {
         ContentValues values = new ContentValues();
-        values.put(FIO, groupMate.fio);
+        values.put(FIRST_NAME, groupMate.firstName);
+        values.put(LAST_NAME, groupMate.lastName);
+        values.put(MIDDLE_NAME, groupMate.middleName);
         values.put(TIME_INSERT, Calendar.getInstance().getTime().getTime());
         return values;
     }

@@ -44,6 +44,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void replaceGroupMate(View v) {
-        GroupMatesHelper.getInstance().groupMatesRepository.replaceLastGroupMate(new GroupMate("Иванов Иван Иванович", null));
+        GroupMatesHelper.getInstance().groupMatesRepository.replaceLastGroupMate(new GroupMate("Иван", "Иванов", "Иванович", null));
     }
 }
