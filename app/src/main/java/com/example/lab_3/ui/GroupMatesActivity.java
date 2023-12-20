@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 public class GroupMatesActivity extends AppCompatActivity {
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
     private ActivityGroupmatesBinding binding;
     private GroupMatesAdapter mAdapter;
 
@@ -52,9 +53,10 @@ public class GroupMatesActivity extends AppCompatActivity {
 
     class GroupMatesAdapter extends RecyclerView.Adapter<GroupMatesAdapter.GroupMateViewHolder> {
         private LayoutInflater mInflater;
+        @Nullable
         private List<GroupMate> mData;
 
-        public GroupMatesAdapter(Context context, List<GroupMate> data) {
+        public GroupMatesAdapter(Context context, @Nullable List<GroupMate> data) {
             mInflater = LayoutInflater.from(context);
             mData = data;
             notifyDataSetChanged();
@@ -62,6 +64,7 @@ public class GroupMatesActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
+            if (mData == null) return 0;
             return mData.size();
         }
 
@@ -91,9 +94,13 @@ public class GroupMatesActivity extends AppCompatActivity {
             }
 
             public void setData(GroupMate groupMate) {
-                ((TextView) mItemView.findViewById(R.id.tv_fio)).setText(String.format("ФИО: %s %s %s", groupMate.firstName, groupMate.lastName, groupMate.middleName));
-                ((TextView) mItemView.findViewById(R.id.tv_timeInsert)).setText(groupMate.timeInsert == null ? "" : "Дата добавления: " + new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").format(
-                        new Date(groupMate.timeInsert)));
+                TextView tvFio = (TextView) mItemView.findViewById(R.id.tv_fio);
+                TextView tvTimeInsert = (TextView) mItemView.findViewById(R.id.tv_timeInsert);
+                String fioString = String.format("%sФИО: %s", (groupMate._id == null || groupMate._id < 0) ? "" : groupMate._id + " | ", groupMate.fio);
+                tvFio.setText(fioString);
+                Date date = new Date(groupMate.timeInsert);
+                String timeInsert = groupMate.timeInsert == null ? "" : "Дата добавления: " + dateFormat.format(date);
+                tvTimeInsert.setText(timeInsert);
             }
         }
     }

@@ -10,7 +10,7 @@ import com.example.lab_3.service.repository.GroupMatesRepository;
 public class GroupMatesHelper extends SQLiteOpenHelper {
     private static GroupMatesHelper instance;
     public static final String DB_NAME = "lab3_db";
-    public static final int DB_VERSION = 2;
+    public static final int DB_VERSION = 1;
     public GroupMatesRepository groupMatesRepository;
 
     public static GroupMatesHelper getInstance() {
@@ -24,9 +24,6 @@ public class GroupMatesHelper extends SQLiteOpenHelper {
 
     public GroupMatesHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
-    }
-
-    public void initialize() {
         this.groupMatesRepository = new SQLiteGroupMatesImpl(this);
     }
 

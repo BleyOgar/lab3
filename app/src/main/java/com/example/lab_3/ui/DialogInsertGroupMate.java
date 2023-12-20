@@ -64,9 +64,7 @@ public class DialogInsertGroupMate extends Dialog {
      * @param v
      */
     private void onAccept(View v) {
-        GroupMate groupMate = new GroupMate(binding.teFirstName.getText().toString(),
-                binding.teLastName.getText().toString(),
-                binding.teMiddleName.getText().toString(), null);
+        GroupMate groupMate = new GroupMate(String.format("%s %s %s", getText(binding.teLastName), getText(binding.teFirstName), getText(binding.teMiddleName)), null);
         mListener.accept(groupMate);
         dismiss();
     }

@@ -2,6 +2,7 @@ package com.example.lab_3;
 
 import android.app.Application;
 
+import com.example.lab_3.service.CommonService;
 import com.example.lab_3.service.GroupMatesHelper;
 
 public class App extends Application {
@@ -12,6 +13,7 @@ public class App extends Application {
     }
 
     private void initializeServices() {
-        GroupMatesHelper.createInstance(getApplicationContext()).initialize();
+        CommonService.createInstance(getApplicationContext());
+        GroupMatesHelper.createInstance(getApplicationContext());
     }
 }
