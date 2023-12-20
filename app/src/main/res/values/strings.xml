@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Работа с базой данных</string>
+    <string name="middleName">Отчество</string>
+    <string name="lastName">Фамилия</string>
+    <string name="firstName">Имя</string>
+    <string name="cancel">Отменить</string>
+    <string name="accept">Применить</string>
+</resources>
