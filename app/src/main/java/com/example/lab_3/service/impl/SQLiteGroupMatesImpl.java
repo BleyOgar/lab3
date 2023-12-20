@@ -53,9 +53,7 @@ public class SQLiteGroupMatesImpl implements GroupMatesRepository {
 
     @Override
     public void insertGroupMate(GroupMate groupMate) {
-        ContentValues values = new ContentValues();
-        values.put(FIO, groupMate.fio);
-        values.put(TIME_INSERT, Calendar.getInstance().getTime().getTime());
+        ContentValues values = getContentValues(groupMate);
         try {
             mHelper.getWritableDatabase().insertWithOnConflict(TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         } catch (SQLException e) {
