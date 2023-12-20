@@ -17,7 +17,7 @@ import com.example.lab_3.R;
 import com.example.lab_3.databinding.ActivityGroupmatesBinding;
 import com.example.lab_3.databinding.ItemGroupmateBinding;
 import com.example.lab_3.models.GroupMate;
-import com.example.lab_3.service.GroupMatesHelper;
+import com.example.lab_3.service.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,7 +38,7 @@ public class GroupMatesActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         binding.rvGroupMates.setLayoutManager(new LinearLayoutManager(this));
-        List<GroupMate> groupMates = GroupMatesHelper.getInstance().groupMatesRepository.getGroupMates();
+        List<GroupMate> groupMates = Service.getInstance().groupMatesRepository.getGroupMates();
         mAdapter = new GroupMatesAdapter(this, groupMates);
         binding.rvGroupMates.setAdapter(mAdapter);
     }

@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.lab_3.databinding.ActivityMainBinding;
 import com.example.lab_3.models.GroupMate;
-import com.example.lab_3.service.GroupMatesHelper;
+import com.example.lab_3.service.Service;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -38,12 +38,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void insertGroupMate(View v) {
         DialogInsertGroupMate dialog = new DialogInsertGroupMate(this, (groupMate) -> {
-            GroupMatesHelper.getInstance().groupMatesRepository.insertGroupMate(groupMate);
+            Service.getInstance().groupMatesRepository.insertGroupMate(groupMate);
         });
         dialog.show();
     }
 
     private void replaceGroupMate(View v) {
-        GroupMatesHelper.getInstance().groupMatesRepository.replaceLastGroupMate(new GroupMate("Иванов Иван Иванович", null));
+        Service.getInstance().groupMatesRepository.replaceLastGroupMate(new GroupMate("Иванов Иван Иванович", null));
     }
 }
